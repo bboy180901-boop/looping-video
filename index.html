@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Looping Video 1 Jam / 10 Jam</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    h1 { font-size: 26px; }
+    p { font-size: 14px; opacity: 0.9; }
+    .card {
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 16px;
+      padding: 20px;
+      max-width: 520px;
+      margin: 20px auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    video {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
+      background: #000;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 14px;
+    }
+    input[type=file] {
+      border: 1px dashed #00ffcc;
+      background: transparent;
+      color: #fff;
+    }
+    select, button { background: #00ffcc; color: #000; font-weight: bold; }
+    footer { margin-top: 25px; font-size: 12px; opacity: 0.6; }
+  </style>
+</head>
+<body><h1>⏱️ Looping Video Otomatis</h1>
+<p>Jadi 1 Jam / 10 Jam • Stabil di HP</p><div class="card">
+  <input type="file" accept="video/*" id="videoInput">  <select id="durationSelect">
+    <option value="3600">Jadi 1 Jam</option>
+    <option value="36000">Jadi 10 Jam</option>
+  </select><button onclick="startVideo()">▶ Mulai Putar</button> <video id="videoPlayer" controls playsinline></video>
+
+</div><footer>Website Looping Video • Versi Durasi Panjang</footer><script>
+  const videoInput = document.getElementById('videoInput');
+  const videoPlayer = document.getElementById('videoPlayer');
+  const durationSelect = document.getElementById('durationSelect');
+
+  let targetDuration = 0;
+  let playedTime = 0;
+
+  function startVideo() {
+    const file = videoInput.files[0];
+    if (!file) {
+      alert('Pilih video terlebih dahulu');
+      return;
+    }
+
+    targetDuration = parseInt(durationSelect.value);
+    playedTime = 0;
+
+    videoPlayer.src = URL.createObjectURL(file);
+    videoPlayer.currentTime = 0;
+    videoPlayer.play();
+
+    if (videoPlayer.requestFullscreen) {
+      videoPlayer.requestFullscreen().catch(() => {});
+    }
+  }
+
+  videoPlayer.addEventListener('ended', () => {
+    playedTime += videoPlayer.duration;
+    if (playedTime < targetDuration) {
+      videoPlayer.currentTime = 0;
+      videoPlayer.play();
+    } else {
+      alert('Durasi target tercapai');
+    }
+  });
+</script></body>
+                                                            </html>
